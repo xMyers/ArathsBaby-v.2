@@ -1,0 +1,73 @@
+﻿@*@{
+    string foto = product.Photo;
+}*@
+
+    <EditForm Model="@product" OnValidSubmit="@OnValidSubmit">
+
+        <div class="form-group">
+            <label for="ProductName" class="control-label">Nombre del producto</label>
+            <input form="ProductName" class="form-control" @bind="product.ProductName">
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Descripción</label>
+            <input form="Description" class="form-control" @bind="product.Description">
+        </div>
+
+        <div class="form-group">
+            <label for="CategoryName">Categoria</label>
+            <input form="CategoryName" class="form-control" @bind="product.CategoryName">
+        </div>
+
+        <div class="form-group">
+            <label for="Price">Precio</label>
+            <input form="Price" class="form-control" @bind="product.Price">
+        </div>
+
+        <div class="form-group">
+            <label for="UnitInStock">Stock</label>
+            <input form="UnitInStock" class="form-control" @bind="product.UnitInStock">
+        </div>
+
+        <div class="form-group">
+            <label for="ColorAviable">Color disponible</label>
+            <input form="ColorAviable" class="form-control" @bind="product.Color">
+        </div>
+
+        <div class="form-group">
+            <label for="dueDate">Fecha:</label>
+            <input type="date" name="math" @bind-value="@product.CreationDate" />
+        </div>
+
+        @*<div>
+            <label>Inserte una imagen del producto</label>
+            <img style="display:block" id="imgProdu" width="150" height="150" src="@foto" />
+            <input type="file" accept="image/png,image/jpg,image/jpeg" id="poPhoto" @onchange="onchange" />
+        </div>*@
+
+        @*<div>
+            <label>Foto de caratula</label>
+            <img width="350" height="350" style="display:block" id="imgFoto"
+                 src="@foto" />
+            <input type="file" id="fuFoto" @ref="fuFoto"
+                   accept="image/png,image/jpg,image/jpeg" @onchange="onchange" />
+        </div>*@
+        
+        <br />
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">@TextoBoton</button>
+        </div>
+
+        <DataAnnotationsValidator />
+    </EditForm>
+
+@code {
+    //ElementReference fuFoto;
+
+    [Parameter] public Product product { get; set; } = new Product();
+    [Parameter] public string TextoBoton { get; set; } = "Guardar cambios";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+    //[Parameter] public EventCallback onchange { get; set; }
+
+}

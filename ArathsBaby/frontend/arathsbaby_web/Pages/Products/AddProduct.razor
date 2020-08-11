@@ -1,0 +1,38 @@
+﻿@page "/addproduct"
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+@{
+    string foto = product.Photo;
+}
+<h1>Agregar producto</h1>
+
+<br />
+
+<FormularioProduct TextoBoton="Crear producto" OnValidSubmit="@CreateProduct" product="@product" />
+
+@code {
+
+    [Parameter]
+    public Product product { get; set; } = new Product();
+
+    public string baseUrl = "https://localhost:44348/";
+
+
+    async Task CreateProduct()
+    {
+        //string imgData = await JS.InvokeAsync<string>("obtenerImagen");
+        //product.Photo = imgData;
+
+        await Http.PostAsJsonAsync($"{baseUrl}api/Product", product);
+        Navigation.NavigateTo("catalog");
+
+    }
+
+    //protected async Task previewdata()
+    //{
+    //    await JS.InvokeVoidAsync("previewData");
+    //}
+
+}

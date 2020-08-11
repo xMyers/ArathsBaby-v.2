@@ -1,0 +1,55 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager navigation
+@inject AuthenticationStateProvider authentication 
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <AuthorizeView>
+            <Authorized>
+                <span>Hello, @context.User.Identity.Name!</span>
+                <NavLink class="nav-link" href="....">
+                    <a href="/" @onclick="(() => Logout())">Cerrar Sesion</a>
+                </NavLink>
+
+                <a href="https://www.facebook.com/ARATHSBABY9" target="_blank">Facebook</a>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink class="nav-link" href="Users/login">
+                    <a href="/" @onclick="(() => Login())">Login</a>
+                </NavLink>
+                <NavLink class="nav-link" href="Users/register">
+                    <a href="/" @onclick="(() => Register())">Registrate</a>
+                </NavLink>
+
+                <a href="https://www.facebook.com/ARATHSBABY9" target="_blank">Facebook</a>
+            </NotAuthorized>
+        </AuthorizeView>
+
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+@code{
+    public void Logout()
+    {
+        ((CustomAuthenticationStateProvider)authentication).UserLogout();
+        navigation.NavigateTo("/Users/login");
+    }
+
+    public void Login()
+    {
+        navigation.NavigateTo("/Users/login");
+    }
+
+    public void Register()
+    {
+        navigation.NavigateTo("/Users/register");
+    }
+}

@@ -1,0 +1,80 @@
+﻿@page "/Users/login"
+
+@layout LoginLayout 
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider auth
+@inject HttpClient Http
+
+    <div style="display:grid;justify-items:center;align-items:center;min-height:100vh">
+        <div class="col-md-6">
+            <EditForm Model="@userInfo" OnValidSubmit="@ValidateUser">
+                <ValidationSummary/>
+                <div class="text-center">
+                    <img src="https://scontent.fntr8-1.fna.fbcdn.net/v/t1.15752-0/p480x480/90356610_567561814108214_1815008271111553024_n.png?_nc_cat=110&_nc_sid=b96e70&_nc_ohc=LlD5Gh3Z14MAX8lkrLQ&_nc_ht=scontent.fntr8-1.fna&oh=ccea69144a5cfcba0109a3781f81b0ce&oe=5F552CCC"
+                         alt="Alternate Text" style="height:250px;width:250px" />
+                </div>
+                <div>
+                    <h3 style="font-weight:bold; color:purple" class="text-center">ArathsBaby Login</h3>
+                </div>
+                <div>
+                    <br />
+                </div>
+                <div class="col-12 row">
+                    <label for="CategoryName">Email</label>
+                    <input class="form-control col-12" @bind="userInfo.Email" />
+                </div>
+                <br />
+                <div class="col-12 row">
+                    <label for="CategoryName">Contraseña</label>
+                    <input type="password" class="form-control col-12" @bind="userInfo.Password" />
+                </div>
+                <br />
+                <div class="col-10 row">
+                    <span class="col-12"></span>
+                    <button type="submit" class="form-control col-6 btn btn-primary">Login</button>
+                    <a href="/Users/register" class="col-3">Sign up</a>
+                </div>
+                <br />
+                <div class="col-12 row" style="text-align:left; font-weight:bold">
+                    <span class="col-12">@LoginMesssage</span>
+                </div>
+                <DataAnnotationsValidator/>
+            </EditForm>
+        </div>
+    </div>
+
+
+@code {
+
+    public UserInfo userInfo = new UserInfo();
+    private const string baseUrl = "https://localhost:44348/";
+
+    public string LoginMesssage { get; set; }
+
+    private async Task ValidateUser()
+    {
+
+        var rpta = await Http.PostJsonAsync<int>($"{baseUrl}api/Account", userInfo);
+
+        if (rpta != 0)
+        {
+            ((CustomAuthenticationStateProvider)auth).UserLogin(rpta.ToString());
+            NavigationManager.NavigateTo("catalog");
+        }
+        else
+        {
+            LoginMesssage = "Correo o contraseña incorrectos";
+        }
+        await Task.FromResult(true);
+
+        //try
+        //{
+        //    userInfo = await Http.GetJsonAsync<UserInfo>($"{baseUrl}api/Account");
+        //}
+        //catch (Exception e)
+        //{
+        //    LoginMesssage = $"Correo o contraseña incorrectos {e.Message}";
+        //}
+    }
+
+}
