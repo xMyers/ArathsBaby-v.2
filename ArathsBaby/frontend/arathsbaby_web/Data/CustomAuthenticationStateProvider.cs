@@ -12,7 +12,8 @@ namespace arathsbaby_web.Data
     {
         public override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var user = new ClaimsPrincipal();
+            var identity = new ClaimsIdentity();
+            var user = new ClaimsPrincipal(identity);
             return Task.FromResult(new AuthenticationState(user));
         }
 
@@ -22,6 +23,8 @@ namespace arathsbaby_web.Data
             {
                 new Claim(ClaimTypes.Name,Email)
             },"authentication");
+            if (Email == "5")
+                identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
 
             var user = new ClaimsPrincipal(identity);
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));

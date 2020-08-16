@@ -1,8 +1,62 @@
-﻿@import url(https://fonts.googleapis.com/css?family=Exo:400,500,500italic,400italic,600,600italic,700,700italic,800,800italic,300,300italic);
-
+﻿
 .container {
     width: 100rem;
     max-width: 100rem;
     margin: 0 auto;
 }
+
+.bg {
+    /* The image used */
+    background-image: url(../../image/elefante.png);
+    /* Full height */
+    height: 100%;
+    width: 200%;
+    /* Center and scale the image nicely */
+    /*background-position: center;*/
+    /*background-size: cover;*/
+}
+
+.login-container {
+    margin-top: 15%;
+    margin-bottom: 12.9%;
+    margin-left: 10%
+}
+
+.login-form-1 {
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    background-color:white;
+}
+
+    .login-form-1 h3 {
+        text-align: center;
+        color: #333;
+    }
+
+.login-form-2 {
+    padding: 3%;
+    background-color: #FEC8D8;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+    .login-container form {
+        padding: 10%;
+    }
+
+.btnSubmit {
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+
+.login-form-1 .btnSubmit {
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+
+
 

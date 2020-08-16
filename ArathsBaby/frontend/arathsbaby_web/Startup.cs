@@ -36,25 +36,21 @@ namespace arathsbaby_web
             services.AddServerSideBlazor();
             services.AddBlazoredSessionStorage();
             services.AddHttpClient();
-            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services.AddSignalR();
+            services.AddSingleton<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            //services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireRole("Admin");
+                });
+            });
             
             services.AddSingleton<HttpClient>();
 
-            services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.Events = new OAuthEvents()
-                {
-                    OnRemoteFailure = loginFailureHandler =>
-                    {
-                        var authProperties = facebookOptions.StateDataFormat.Unprotect(loginFailureHandler.Request.Query["state"]);
-                        loginFailureHandler.Response.Redirect("/Users/login");
-                        loginFailureHandler.HandleResponse();
-                        return Task.FromResult(0);
-                    }
-                };
-            });
+            services.AddAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,7 +72,8 @@ namespace arathsbaby_web
 
             app.UseRouting();
 
-
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

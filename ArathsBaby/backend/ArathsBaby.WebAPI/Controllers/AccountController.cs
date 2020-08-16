@@ -1,5 +1,6 @@
 ﻿using ArathsBaby.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace ArathsBaby.WebAPI.Controllers
         public int Login([FromBody] UserInfo userInfo)
         {
             int rpta = 0;
-            //int nvces;
             try
             {
                     int nvces = _context.Users.Where(p => p.Email == userInfo.Email

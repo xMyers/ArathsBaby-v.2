@@ -1,0 +1,25 @@
+﻿Body {
+    background-color: #FFF;
+}
+
+.contenedor-text{
+
+}
+
+
+.quienes-somos {
+    font-size: 40px;
+    font-family: initial;
+    color: black;
+}
+
+.somos {
+    font-size: 30px;
+    font-family: initial;
+    color: black;
+}
+
+.ubicacion{
+    font-size:30px;
+    font-family:initial;
+}

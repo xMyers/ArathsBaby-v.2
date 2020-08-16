@@ -45,22 +45,16 @@ namespace ArathsBaby.WebAPI
 
             services.AddDbContext<ArathsBabyContext>(options => 
                     options.UseSqlServer(Configuration.GetConnectionString("ArathsBabyContext")));
-
-            services.AddAuthentication().AddFacebook(facebookOptions =>
+            
+            services.AddAuthorization(options =>
             {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.Events = new OAuthEvents()
+                options.AddPolicy("Admin", policy =>
                 {
-                    OnRemoteFailure = loginFailureHandler =>
-                    {
-                        var authProperties = facebookOptions.StateDataFormat.Unprotect(loginFailureHandler.Request.Query["state"]);
-                        loginFailureHandler.Response.Redirect("/Users/login");
-                        loginFailureHandler.HandleResponse();
-                        return Task.FromResult(0);
-                    }
-                };
+                    policy.RequireRole("Admin");
+                });
             });
+
+            services.AddAuthentication();
 
         }
 

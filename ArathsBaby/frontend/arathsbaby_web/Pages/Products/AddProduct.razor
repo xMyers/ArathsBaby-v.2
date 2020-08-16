@@ -2,15 +2,23 @@
 @inject HttpClient Http
 @inject IJSRuntime JS
 @inject NavigationManager Navigation
+@attribute [Authorize]
+
 
 @{
     string foto = product.Photo;
 }
-<h1>Agregar producto</h1>
 
-<br />
+<AuthorizeView Roles="Admnin">
+    <Authorized>
+        <h1>Agregar producto</h1>
 
-<FormularioProduct TextoBoton="Crear producto" OnValidSubmit="@CreateProduct" product="@product" />
+        <br />
+
+        <FormularioProduct TextoBoton="Crear producto" OnValidSubmit="@CreateProduct" product="@product" onchange="@previewdata" />
+    </Authorized>
+</AuthorizeView>
+
 
 @code {
 
@@ -22,17 +30,17 @@
 
     async Task CreateProduct()
     {
-        //string imgData = await JS.InvokeAsync<string>("obtenerImagen");
-        //product.Photo = imgData;
+        string imgData = await JS.InvokeAsync<string>("obtenerImagen");
+        product.Photo = imgData;
 
         await Http.PostAsJsonAsync($"{baseUrl}api/Product", product);
         Navigation.NavigateTo("catalog");
 
     }
 
-    //protected async Task previewdata()
-    //{
-    //    await JS.InvokeVoidAsync("previewData");
-    //}
+    protected async Task previewdata()
+    {
+        await JS.InvokeVoidAsync("previewData");
+    }
 
 }

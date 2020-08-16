@@ -5,12 +5,12 @@
 @inject AuthenticationStateProvider auth
 @inject HttpClient Http
 
-    <div style="display:grid;justify-items:center;align-items:center;min-height:100vh">
+    @*<div style="display:grid;justify-items:center;align-items:center;min-height:100vh; position:center">
         <div class="col-md-6">
             <EditForm Model="@userInfo" OnValidSubmit="@ValidateUser">
                 <ValidationSummary/>
                 <div class="text-center">
-                    <img src="https://scontent.fntr8-1.fna.fbcdn.net/v/t1.15752-0/p480x480/90356610_567561814108214_1815008271111553024_n.png?_nc_cat=110&_nc_sid=b96e70&_nc_ohc=LlD5Gh3Z14MAX8lkrLQ&_nc_ht=scontent.fntr8-1.fna&oh=ccea69144a5cfcba0109a3781f81b0ce&oe=5F552CCC"
+                    <img src=""
                          alt="Alternate Text" style="height:250px;width:250px" />
                 </div>
                 <div>
@@ -41,6 +41,39 @@
                 <DataAnnotationsValidator/>
             </EditForm>
         </div>
+    </div>*@
+
+    <div class="container login-container">
+        <div class="row">
+            <div class="col-md-6 login-form-2">
+                <div class="cont-img">
+                    <img src="https://scontent.fntr8-1.fna.fbcdn.net/v/t1.15752-9/90356610_567561814108214_1815008271111553024_n.png?_nc_cat=110&_nc_sid=b96e70&_nc_ohc=s_KKBjqO5BcAX87VT27&_nc_ht=scontent.fntr8-1.fna&oh=a09b4743a86553cc5867ed6fa2b45281&oe=5F5C67C3"
+                         alt="Alternate Text" style="height:500px;width:500px; margin-left: 86px;" />
+                </div>
+            </div>
+            <div class="col-md-6 login-form-1">
+                <div>
+                    <h3 style="font-weight:bold; color:#ea899a; font-size:40px" class="text-center">Inicia Sesión</h3>
+                </div>
+                <EditForm Model="@userInfo" OnValidSubmit="@ValidateUser">
+                    <div class="form-group">
+                        <label for="CategoryName">Email</label>
+                        <input class="form-control col-12" @bind="userInfo.Email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="CategoryName">Contraseña</label>
+                        <input type="password" class="form-control col-12" @bind="userInfo.Password" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btnSubmit">Login</button>
+                        <a href="/Users/register" class="col-3">Sign up</a>
+                    </div>
+                    <div class="col-12 row" style="text-align:left; font-weight:bold">
+                        <span class="col-12">@LoginMesssage</span>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
     </div>
 
 
@@ -67,14 +100,6 @@
         }
         await Task.FromResult(true);
 
-        //try
-        //{
-        //    userInfo = await Http.GetJsonAsync<UserInfo>($"{baseUrl}api/Account");
-        //}
-        //catch (Exception e)
-        //{
-        //    LoginMesssage = $"Correo o contraseña incorrectos {e.Message}";
-        //}
     }
 
 }

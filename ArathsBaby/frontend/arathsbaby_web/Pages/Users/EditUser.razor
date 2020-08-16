@@ -1,0 +1,39 @@
+﻿@page "/Users/editar/{Id:int}"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <div style="display:grid;justify-items:center;align-items:center;min-height:100vh">
+            <div class="col-md-8">
+                <h1 class="text-center">Editar cuenta</h1>
+
+                <FormularioRegistro TextoBoton="Editar" TextoBoton2="Regresar" OnValidSubmit="@Editaruser" user="@user"> </FormularioRegistro>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+
+    [Parameter] public int Id { get; set; }
+    public string baseUrl = "https://localhost:44348/";
+    Users user = new Users();
+
+    async Task Editaruser()
+    {
+        string endpoint = $"{baseUrl}api/Users/{Id}";
+
+        await Http.SendJsonAsync(HttpMethod.Put, endpoint, user);
+        Navigation.NavigateTo("/Users/usuarios");
+        StateHasChanged();
+
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        user = await Http.GetJsonAsync<Users>($"{baseUrl}api/Users/{Id}");
+    }
+}

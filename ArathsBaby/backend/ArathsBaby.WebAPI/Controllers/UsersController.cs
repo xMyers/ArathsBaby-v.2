@@ -103,15 +103,6 @@ namespace ArathsBaby.WebAPI.Controllers
             return user;
         }
 
-        //[HttpPost("Login")]
-        //public async Task<ActionResult<Users>> PostLogin(Users user)
-        //{
-        //    user = await _context.Users.Where(u => u.Email == user.Email
-        //                                        && u.Password == user.Password).FirstOrDefaultAsync();
-
-        //    return CreatedAtAction("obtenerUser", new { id = user.Id }, user);
-        //}
-
         private bool UsersExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);

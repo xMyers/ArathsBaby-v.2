@@ -1,0 +1,137 @@
+﻿@attribute [Authorize]
+
+<EditForm Model="@user" OnValidSubmit="@OnValidSubmit" Context="formContext">
+
+    <div class="container-dp">
+        <h2>Datos Personales</h2>
+        <div class="content">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="Name">Nombre</label>
+                    <input type="text" form="Name" class="form-control" @bind="user.Name">
+                    <ValidationMessage For="@(() => user.Name)" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="LastName">Apellido</label>
+                    <input type="text" form="LastName" class="form-control" @bind="user.LastName">
+                    <ValidationMessage For="@(() => user.LastName)" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Phone">Telefono</label>
+                    <input form="Phone" class="form-control" @bind="user.Phone">
+                    <ValidationMessage For="@(() => user.Phone)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dueDate">Fecha Nacimiento:</label>
+                <input type="date" name="math" @bind-value="@user.DateOfBirth" />
+                <ValidationMessage For="@(() => user.DateOfBirth)" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="Email">Email</label>
+                    <input type="email" form="Email" class="form-control" @bind="user.Email">
+                    <ValidationMessage For="@(() => user.Email)" />
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="Password">Contraseña</label>
+                    <input type="password" form="Password" class="form-control" @bind="user.Password">
+                    <ValidationMessage For="@(() => user.Password)" />
+                </div>
+                <AuthorizeView Roles="Admin">
+                    <Authorized >
+                        <div class="form-group col-md-3">
+                            <label for="Rol">Rol</label>
+                            <input type="text" form="Rol" class="form-control" @bind="user.Role">
+                            <ValidationMessage For="@(() => user.Role)" />
+                        </div>
+                    </Authorized>
+                </AuthorizeView>
+
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="container-d">
+        <h2>Su Direccion</h2>
+        <div class="content">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="Address">Dirección</label>
+                    <input type="text" form="Address" class="form-control" @bind="user.Address">
+                    <ValidationMessage For="@(() => user.Address)" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="OutsideNumber">Núm. Exterior</label>
+                    <input form="OutsideNumber" class="form-control" @bind="user.OutsideNumber">
+                    <ValidationMessage For="@(() => user.OutsideNumber)" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="InternalNumber">Núm. Interiro</label>
+                    <input form="InternalNumber" class="form-control" @bind="user.InternalNumber">
+                    <ValidationMessage For="@(() => user.InternalNumber)" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="Colony">Colonia</label>
+                    <input type="text" form="Colony" class="form-control" @bind="user.Colony">
+                    <ValidationMessage For="@(() => user.Colony)" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="Street">Entre Calles</label>
+                    <input type="text" form="Street" class="form-control" @bind="user.Street">
+                    <ValidationMessage For="@(() => user.Street)" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="City">Ciudad/Municipio</label>
+                    <input type="text" form="City" class="form-control" @bind="user.City">
+                    <ValidationMessage For="@(() => user.City)" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="State">Estado</label>
+                    <input type="text" form="State" class="form-control" @bind="user.State">
+                    <ValidationMessage For="@(() => user.LastName)" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="ZipCode">Codigo Postal</label>
+                    <input form="ZipCode" class="form-control" @bind="user.ZipCode">
+                    <ValidationMessage For="@(() => user.ZipCode)" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="Country">Pais</label>
+                    <input type="text" form="Country" class="form-control" @bind="user.Country">
+                    <ValidationMessage For="@(() => user.Country)" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">@TextoBoton</button>
+            <AuthorizeView>
+                <Authorized>
+                    <a href="/Users/usuarios" class="btn btn-primary">@TextoBoton2</a>
+                </Authorized>
+            </AuthorizeView>
+
+        </div>
+    </div>
+    <DataAnnotationsValidator />
+</EditForm>
+
+@code {
+    [Parameter] public Users user { get; set; } = new Users();
+    [Parameter] public string TextoBoton { get; set; } = "Guardar cambios";
+    [Parameter] public string TextoBoton2 { get; set; } = "Volver";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

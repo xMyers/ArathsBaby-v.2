@@ -30,6 +30,8 @@ namespace ArathsBaby.Infrastructure
         [MinLength(8, ErrorMessage = "La contraseña debe tener como minimo 8 caracteres")]
         public string Password { get; set; }
 
+        public string Role { get; set; }
+
         [Required]
         public string Address { get; set; }
 

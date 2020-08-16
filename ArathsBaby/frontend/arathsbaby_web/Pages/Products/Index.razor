@@ -1,8 +1,13 @@
 ﻿@page "/catalog"
 @inject HttpClient Http
 @inject IJSRuntime JS
+@attribute [Authorize]
 
-<AuthorizeView>
+@{
+    int count = 1;
+}
+
+<AuthorizeView Roles="Admin">
     <Authorized>
         <div>
             <a class="btn btn-success" href="addproduct">Agregar Producto</a>
@@ -28,31 +33,35 @@ else
 {
     @foreach (var item in product)
     {
-        <div class="card" style="width: 18rem; margin-top:3rem; margin-right:3rem; margin-bottom:2rem; margin-left:3rem; position:initial">
-            <img src="https://scontent.fntr8-1.fna.fbcdn.net/v/t1.0-9/107865247_704094323779323_2201784036865521556_n.jpg?_nc_cat=101&_nc_sid=8bfeb9&_nc_ohc=FwSgbE0cEAAAX92rcFt&_nc_ht=scontent.fntr8-1.fna&oh=4ec8b36ac7d0080b2f2bb3096b7b38cc&oe=5F37D400" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h2 class="card-title">@item.ProductName</h2>
-                <p class="card-text">@item.Description</p>
-                <h4 class="card-text">Stock</h4>
-                <p class="card-text">@item.UnitInStock</p>
-                <h4 class="card-text">Color</h4>
-                <p class="card-text">@item.Color</p>
-                <h3 class="card-text" style="align-content:center">$@item.Price</h3>
-                <p class="card-text">@item.CreationDate.ToShortDateString()</p>
-                <AuthorizeView>
-                    <Authorized>
-                        <a href="editproduct/@item.Id" class="btn btn-primary">Editar</a>
-                        <button class="btn btn-danger" @onclick="@(() => EliminarProduct(item.Id))">Eliminar</button>
-                    </Authorized>
-                    <NotAuthorized>
-                        
-                    </NotAuthorized>
-                </AuthorizeView>
-                
+        <td>
+            <div class="card" style="width: 18rem; margin-top:3rem; margin-right:3rem; margin-bottom:2rem; margin-left:3rem; position:initial">
+                <img src="https://scontent.fntr8-1.fna.fbcdn.net/v/t1.0-9/107865247_704094323779323_2201784036865521556_n.jpg?_nc_cat=101&_nc_sid=8bfeb9&_nc_ohc=FwSgbE0cEAAAX92rcFt&_nc_ht=scontent.fntr8-1.fna&oh=4ec8b36ac7d0080b2f2bb3096b7b38cc&oe=5F37D400" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h2 class="card-title">@item.ProductName</h2>
+                    <p class="card-text">@item.Description</p>
+                    <h4 class="card-text">Stock</h4>
+                    <p class="card-text">@item.UnitInStock</p>
+                    <h4 class="card-text">Color</h4>
+                    <p class="card-text">@item.Color</p>
+                    <h3 class="card-text" style="align-content:center">$@item.Price</h3>
+                    <p class="card-text">@item.CreationDate.ToShortDateString()</p>
+                    <AuthorizeView Roles="Admin">
+                        <Authorized>
+                            <a href="editproduct/@item.Id" class="btn btn-primary">Editar</a>
+                            <button class="btn btn-danger" @onclick="@(() => EliminarProduct(item.Id))">Eliminar</button>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
             </div>
-        </div>
-
+        </td>
+        if ((count % 4) == 0 && count != product.Count())
+        {
+            @:<tr>
+            @:</tr>
+        }
+        count++;
     }
+
 
 }
 

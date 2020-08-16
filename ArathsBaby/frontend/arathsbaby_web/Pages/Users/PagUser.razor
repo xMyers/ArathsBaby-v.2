@@ -1,0 +1,115 @@
+﻿@page "/Users/usuarios"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@attribute [Authorize]
+
+    <AuthorizeView Roles="Admin">
+        <Authorized>
+            <h2>Usuarios registrados</h2>
+            <br />
+
+            @if (string.IsNullOrWhiteSpace(errorS) == false)
+            {
+                <div class="h2">@errorS</div>
+            }
+            else if (users is null)
+            {
+                <div class="h3">Cargando....</div>
+            }
+            else
+            {
+                <table class="table" style="position:initial; background-color:white">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>LastName</th>
+                            <th>Phone</th>
+                            <th>DateOfBirth</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Role</th>
+                            <th>Address</th>
+                            <th>Colony</th>
+                            <th>Street</th>
+                            <th>OutsideNumber</th>
+                            <th>InternalNumber</th>
+                            <th>City</th>
+                            <th>ZipCode</th>
+                            <th>State</th>
+                            <th>Country</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in users)
+                        {
+                            <tr>
+                                <td scope="row">@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>@item.LastName</td>
+                                <td>@item.Phone</td>
+                                <td>@item.DateOfBirth</td>
+                                <td>@item.Email</td>
+                                <td>@item.Password</td>
+                                <td>@item.Role</td>
+                                <td>@item.Address</td>
+                                <td>@item.Colony</td>
+                                <td>@item.Street</td>
+                                <td>@item.OutsideNumber</td>
+                                <td>@item.InternalNumber</td>
+                                <td>@item.City</td>
+                                <td>@item.ZipCode</td>
+                                <td>@item.State</td>
+                                <td>@item.Country</td>
+                                <td>
+                                    <a href="/Users/editar/@item.Id" class="btn btn-primary">Editar</a>
+                                    <button class="btn btn-danger" @onclick="@(() => EliminarUser(item.Id))">Borrar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </Authorized>
+    </AuthorizeView>
+@code {
+
+    Users[] users { get; set; }
+    private const string baseUrl = "https://localhost:44348/";
+    string errorS;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        await CargarUsuarios();
+
+    }
+
+    async Task CargarUsuarios()
+    {
+        try
+        {
+            users = await Http.GetJsonAsync<Users[]>($"{baseUrl}api/Users");
+            errorS = null;
+        }
+        catch (Exception ex)
+        {
+            errorS = $"Error extraer datos: {ex.Message }";
+        }
+    }
+
+    async Task EliminarUser(int Id)
+    {
+        var userSelect = users.First(x => x.Id == Id);
+        string messageConfirm = $"¿Esta seguro de eliminar el porducto {userSelect.Id}?";
+        if (await JS.Confirm("Cuidado", messageConfirm, IJSExtensions.TypeMessageSweetAler.warning))
+        {
+            await Http.DeleteAsync($"{baseUrl}api/Users/{Id}");
+            await CargarUsuarios();
+        }
+
+    }
+
+}

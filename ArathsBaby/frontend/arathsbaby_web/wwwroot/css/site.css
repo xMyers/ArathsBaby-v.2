@@ -32,7 +32,6 @@ app {
 
     .main .top-row {
         background-color: #f7f7f7;
-        border-bottom: 1px solid #d6d5d5;
         justify-content: flex-end;
     }
 
@@ -159,7 +158,7 @@ app {
         width: 250px;
         height: 100vh;
         position: sticky;
-        top: 0;
+        top: 0px;
     }
 
     .main .top-row {

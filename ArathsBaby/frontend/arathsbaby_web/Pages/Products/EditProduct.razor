@@ -1,11 +1,21 @@
 ﻿@page "/editproduct/{Id:int}"
 @inject HttpClient Http
 @inject NavigationManager Navigation
+@inject IJSRuntime JS
+@attribute [Authorize]
+@{
+    string foto = product.Photo;
+}
 
-<h1>Editar producto</h1>
-<br />
+<AuthorizeView>
+    <Authorized>
+        <h1>Editar producto</h1>
+        <br />
 
-<FormularioProduct TextoBoton="Editar" OnValidSubmit="@Editar" product="@product" />
+        <FormularioProduct TextoBoton="Editar" OnValidSubmit="@Editar" product="@product" onchange="@previewdata" />
+    </Authorized>
+</AuthorizeView>
+
 
 @code {
     [Parameter] public int Id { get; set; }
@@ -17,6 +27,8 @@
     async Task Editar()
     {
         string endpoint = $"{baseUrl}api/Product/{Id}";
+        string imgData = await JS.InvokeAsync<string>("obtenerImagen");
+        product.Photo = imgData;
         await Http.SendJsonAsync(HttpMethod.Put, endpoint, product);
         Navigation.NavigateTo("catalog");
         StateHasChanged();
@@ -28,5 +40,9 @@
         product = await Http.GetJsonAsync<Product>($"{baseUrl}api/Product/{Id}");
     }
 
+    protected async Task previewdata()
+    {
+        await JS.InvokeVoidAsync("previewData");
+    }
 
 }

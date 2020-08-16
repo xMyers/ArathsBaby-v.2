@@ -18,8 +18,4 @@
     <ProjectReference Include="..\..\backend\ArathsBaby.Infrastructure\ArathsBaby.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\image\" />
-  </ItemGroup>
-
 </Project>
