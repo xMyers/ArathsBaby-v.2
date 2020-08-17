@@ -103,7 +103,7 @@
     async Task EliminarUser(int Id)
     {
         var userSelect = users.First(x => x.Id == Id);
-        string messageConfirm = $"¿Esta seguro de eliminar el porducto {userSelect.Id}?";
+        string messageConfirm = $"¿Esta seguro de eliminar el usuario {userSelect.Id}?";
         if (await JS.Confirm("Cuidado", messageConfirm, IJSExtensions.TypeMessageSweetAler.warning))
         {
             await Http.DeleteAsync($"{baseUrl}api/Users/{Id}");

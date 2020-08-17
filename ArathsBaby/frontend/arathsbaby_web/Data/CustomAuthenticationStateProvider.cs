@@ -23,7 +23,7 @@ namespace arathsbaby_web.Data
             {
                 new Claim(ClaimTypes.Name,Email)
             },"authentication");
-            if (Email == "5")
+            if (Email == "1")
                 identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
 
             var user = new ClaimsPrincipal(identity);
